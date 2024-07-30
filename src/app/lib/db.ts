@@ -2,6 +2,8 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { z } from 'zod';
+
 
 export type Config = {
     MEMBERS: Member[];
@@ -21,10 +23,10 @@ export type Config = {
     MEMBER_PORT: number;
   };
    
-  export default async function getData() : Promise<Config>{
-    const res = await fetch('http://192.168.0.120:8000/home',{cache: 'no-store'});
+  export async function getData() : Promise<Config>{
+    //const res = await fetch('http://192.168.0.120:8000/home',{cache: 'no-store'});
+    const res = await fetch('http://localhost:9999/root',{cache: 'no-store'});
     
-    //console.log(res)
     return res.json();
   }
   export async function getMembers(){
@@ -34,11 +36,38 @@ export type Config = {
     return members;
   }
 
-  export async function shutdownMember(
+
+const cmdSchema = z.object({
+  name: z.string(),
+  cmd: z.enum(['startup', 'shutdown'], {
+    invalid_type_error: 'Please select cmd.',
+  })
+});
+
+  export type cmdState = {
+    errors?: {
+      name?: string[];
+      cmd?: string[];
+    };
+    message?: string | null;
+  };
+
+  export async function cmdMember(
+    prevState: cmdState,
     formData: FormData,
   ) {
-    const name = formData.get('name')
-
+    const validatedFields = cmdSchema.safeParse({
+      name: formData.get('name'),
+      cmd: formData.get('cmd')
+    })
+    if (!validatedFields.success) {
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+        message: 'Missing Fields. Failed to run Cmd.',
+      };
+    }
+    const {name,cmd}= validatedFields.data;
+  
     const response = await fetch(`http://192.168.0.120:8000/${name}`, {
       method: 'POST',
       body: formData,

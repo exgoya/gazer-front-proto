@@ -1,16 +1,15 @@
-import Link from 'next/link';
-import {getData, shutdownMember} from '../lib/db'
-import { useFormState } from 'react-dom';
-import { isNull } from 'util';
+
+import {getData, cmdMember} from '../lib/db'
+// import { useFormState } from 'react-dom';
 
 export default async function Page() {
   const config = await getData();
+  console.log(config)
   const members = config.MEMBERS;
   
   // console.log(config.members);d
-  const initialState = { message: null, errors: {} };
-  const updateIssueWithId = shutdownMember(null);
-  const [state, dispatch] = useFormState(updateIssueWithId, initialState);
+  // const initialState = { message: 'None', errors: {} };
+  // const [state, dispatch] = useFormState(cmdMember, initialState);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
@@ -62,8 +61,8 @@ export default async function Page() {
                   </td>
                   <td className="whitespace-nowrap py-3 pl-6 pr-3">
                     <form action={dispatch}>
-                    <input id="cmd" name="cmd" type="string" placeholder="cmd" className="hidden" defaultValue="shutdown" />
                     <input id="name" name="name" type="string" placeholder="name" className="hidden" defaultValue={member.MEMBER_NAME} />
+                    <input id="cmd" name="cmd" type="string" placeholder="cmd" className="hidden" defaultValue="shutdown" />
 
                     <div className="flex justify-end gap-3">
                       {/* <Link
