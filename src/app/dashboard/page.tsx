@@ -1,26 +1,22 @@
 
-import {getData, cmdMember} from '../lib/db'
-// import { useFormState } from 'react-dom';
+import {getData} from '../lib/db'
+import Form from '@/app/ui/runCmd-form'
+
 
 export default async function Page() {
   const config = await getData();
   console.log(config)
   const members = config.MEMBERS;
   
-  // console.log(config.members);d
-  // const initialState = { message: 'None', errors: {} };
-  // const [state, dispatch] = useFormState(cmdMember, initialState);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
 
     {/* member name list 를 get 한다 */}
 
-    <div className="text-left">
-      <p>Total Group Count : {config.TOTAL_GROUP_COUNT}</p>
-      <p>Total Member Count : {config.TOTAL_MEMBER_COUNT}</p>
-    </div>
-    <table className="hidden min-w-full text-gray-900 md:table">
+
+    <div  className="flex">
+    <table className="flex min-w-full text-gray-900 md:table">
             <thead className="bg-white rounded-lg text-left text-sm font-normal">
               <tr>
                 <th scope="col" className="px-4 py-5 font-medium">
@@ -34,6 +30,12 @@ export default async function Page() {
                 </th>
                 <th scope="col" className="px-3 py-5 font-medium">
                   port
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  button
+                </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  button
                 </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
@@ -59,27 +61,25 @@ export default async function Page() {
                   <td className="whitespace-nowrap px-3 py-3">
                     {member.MEMBER_PORT}
                   </td>
-                  <td className="whitespace-nowrap py-3 pl-6 pr-3">
-                    <form action={dispatch}>
-                    <input id="name" name="name" type="string" placeholder="name" className="hidden" defaultValue={member.MEMBER_NAME} />
-                    <input id="cmd" name="cmd" type="string" placeholder="cmd" className="hidden" defaultValue="shutdown" />
+                  <td className="whitespace-nowrap px-3 py-3">
+                    <Form member={member} cmd={"startup"}></Form>
+                  </td>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    <Form member={member} cmd={"shutdown"}></Form>
+                  </td>
 
-                    <div className="flex justify-end gap-3">
-                      {/* <Link
-                        href={`/${member.name}`}
-                        className="flex h-10 items-center rounded-lg bg-red-600 px-4 text-sm font-medium text-white transition-colors hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                      >
-                        <span className="hidden md:block">Shutdown</span>{' '}
-                        <ArrowDownIcon className="h-5 md:ml-4" />
-                      </Link> */}
-                      <button type="submit" className="flex h-10 items-center rounded-lg bg-red-600 px-4 text-sm font-medium text-white transition-colors hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600">shutdown</button>
-                    </div>
-                    </form>
+                  <td className="whitespace-nowrap px-3 py-3">
+                    <Form member={member} cmd={"join"}></Form>
                   </td>
                 </tr>
             ))}
             </tbody>
           </table>  
+          </div>
+          <div className="flex text-left" >
+      <p className="whitespace-nowrap py-3 pl-6 pr-3">Total Group Count : {config.TOTAL_GROUP_COUNT}</p>
+      <p className="whitespace-nowrap py-3 pl-6 pr-3">Total Member Count : {config.TOTAL_MEMBER_COUNT}</p>
+    </div>
     </main>
   );
 }
