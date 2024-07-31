@@ -59,6 +59,13 @@ export default function Form({ member ,cmd}: { member: Member ,cmd: string}) {
           {cmd}
         </button>
       </div>
+      <div id="name-error" aria-live="polite" aria-atomic="true">
+        {state.result?.current_status &&
+            <p className="mt-2 text-sm text-red-500" >
+              {state.result.current_status}
+            </p>
+          }
+      </div>
 
       <div id="name-error" aria-live="polite" aria-atomic="true">
         {state.errors?.name &&

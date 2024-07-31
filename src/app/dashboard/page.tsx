@@ -14,7 +14,6 @@ export default async function Page() {
 
     {/* member name list 를 get 한다 */}
 
-
     <div  className="flex">
     <table className="flex min-w-full text-gray-900 md:table">
             <thead className="bg-white rounded-lg text-left text-sm font-normal">
@@ -37,6 +36,9 @@ export default async function Page() {
                 <th scope="col" className="px-3 py-5 font-medium">
                   button
                 </th>
+                <th scope="col" className="px-3 py-5 font-medium">
+                  button
+                </th>
                 <th scope="col" className="relative py-3 pl-6 pr-3">
                   <span className="sr-only">Edit</span>
                 </th>
@@ -46,7 +48,7 @@ export default async function Page() {
 
             {members?.map((member) => (
                 <tr
-                  key={member.GROUP_NAME}
+                  key={member.MEMBER_NAME}
                   className="w-full border-b py-3 text-sm last-of-type:border-none [&:first-child>td:first-child]:rounded-tl-lg [&:first-child>td:last-child]:rounded-tr-lg [&:last-child>td:first-child]:rounded-bl-lg [&:last-child>td:last-child]:rounded-br-lg"
                 >
                   <td className="whitespace-nowrap px-3 py-3">

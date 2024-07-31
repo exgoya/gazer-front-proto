@@ -45,12 +45,20 @@ const cmdSchema = z.object({
   cmd: z.enum(['startup', 'shutdown','join'], { invalid_type_error: 'Please select a valid command.' })
 });
 
+export type cmdResult = {
+  member_name : string
+  cmd : string
+  result : string
+  current_status : string
+}
+
 export type cmdState = {
   errors?: {
     name?: string[];
     cmd?: string[];
   };
   message?: string | null;
+  result? : cmdResult|null;
 };
 
 export async function cmdMember(
@@ -68,9 +76,7 @@ export async function cmdMember(
       message: 'Missing Fields. Failed to run Cmd.',
     };
   }
-
   const { name, cmd } = validatedFields.data;
-
   try {
     const response = await fetch(`http://192.168.0.120:8000/jsontest/${name}`, {
       method: 'POST',
@@ -79,14 +85,15 @@ export async function cmdMember(
       },
       body: JSON.stringify({ name, cmd }),
     });
-
+    const data = await response.json()
     if (!response.ok) {
       throw new Error('Failed to run command');
     }
+    // 성공 시 반환 타입
+    return { message: null, errors: {} , result : data};
   } catch (error) {
     console.error(error);
     return { message: 'Failed to run command' };
   }
-
-  return { message: null, errors: {} }; // 성공 시 반환 타입
+  return { message: null, errors: {} , result : null};
 }
