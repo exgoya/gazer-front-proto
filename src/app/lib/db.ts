@@ -78,7 +78,7 @@ export async function cmdMember(
   }
   const { name, cmd } = validatedFields.data;
   try {
-    const response = await fetch(`http://192.168.0.120:8000/jsontest/${name}`, {
+    const response = await fetch(`http://192.168.0.120:8000/cmd/${name}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
