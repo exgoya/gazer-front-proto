@@ -120,11 +120,11 @@ export default function Form({ member, cmds }: FormProps) {
             className={`w-full h-10 px-4 py-2 rounded-lg text-sm font-medium text-white transition-colors focus:outline-none focus:ring-2 ${
               disabled
                 ? 'bg-gray-400 cursor-not-allowed' // 비활성화 상태 스타일
-                : cmd === 'startup'
+                : cmd === 'STARTUP'
                 ? 'bg-blue-600 hover:bg-blue-500 focus:ring-blue-600'
-                : cmd === 'shutdown'
+                : cmd === 'SHUTDOWN'
                 ? 'bg-red-600 hover:bg-red-500 focus:ring-red-600'
-                : cmd === 'join'
+                : cmd === 'JOIN'
                 ? 'bg-green-600 hover:bg-green-500 focus:ring-green-600'
                 : 'bg-gray-600 hover:bg-gray-500 focus:ring-gray-600'
             }`}

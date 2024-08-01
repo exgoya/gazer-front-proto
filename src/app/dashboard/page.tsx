@@ -44,7 +44,7 @@ export default async function Page() {
                 <td className="whitespace-nowrap px-3 py-3">{member.member_port}</td>
                 <td className="whitespace-nowrap px-3 py-3">93</td>
                 <td className="whitespace-nowrap px-3 py-3">
-                  <Form member={member} cmds={['startup', 'shutdown', 'join']} />
+                  <Form member={member} cmds={['STARTUP', 'SHUTDOWN', 'JOIN','REBALANCE']} />
                 </td>
 
               </tr>
