@@ -2,7 +2,7 @@
 
 import { Member, cmdMember, cmdState } from '@/app/lib/db'; // 경로 확인
 import { useState, useRef, FormEvent } from 'react';
-import ConfirmModal from '@/app/components/ConfirmModal'; // ConfirmModal 컴포넌트 경로 확인
+import ConfirmModal from '@/app/ui/ConfirmModal'; // ConfirmModal 컴포넌트 경로 확인
 
 interface FormProps {
   member: Member;
@@ -18,7 +18,7 @@ export default function Form({ member, cmds }: FormProps) {
     message: null,
     errors: {},
     result: {
-      current_status: 'No status available', // 기본 상태 메시지
+      current_status: null, // 기본 상태 메시지
       member_name: 'None',
       cmd: 'None',
       result: 'None'
@@ -60,7 +60,7 @@ export default function Form({ member, cmds }: FormProps) {
         message: '폼 제출 중 오류가 발생했습니다.',
         errors: {},
         result: {
-          current_status: 'No status available', // 오류 발생 시 기본 상태 메시지 유지
+          current_status: null, // 오류 발생 시 기본 상태 메시지 유지
           member_name: 'None',
           cmd: 'None',
           result: 'None'
@@ -83,7 +83,7 @@ export default function Form({ member, cmds }: FormProps) {
     <div className="flex gap-4 overflow-x-auto">
       <div id="status" aria-live="polite" aria-atomic="true">
         <p className={`w-full h-10 px-4 py-2 rounded-lg text-lg font-bold ${statusColor}`}>
-          {state.result?.current_status || 'No status available'}
+          {state.result?.current_status || member.STATUS}
         </p>
       </div>
 
@@ -145,7 +145,7 @@ export default function Form({ member, cmds }: FormProps) {
           </div>
         </form>
       ))}
-      
+
       {state.message && <p className="text-sm text-red-500">{state.message}</p>}
 
       {isModalOpen && !disabled && (

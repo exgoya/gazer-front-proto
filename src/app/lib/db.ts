@@ -1,9 +1,9 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
-import { redirect } from 'next/navigation';
 import { z } from 'zod';
+import { API_URL } from '../config/urls'; // 경로를 프로젝트에 맞게 조정
 
+// 데이터 타입 정의
 export type Config = {
   MEMBERS: Member[];
   TOTAL_GROUP_COUNT: number;
@@ -15,17 +15,28 @@ export type Member = {
   MEMBER_NAME: string;
   MEMBER_HOST: string;
   MEMBER_PORT: number;
+  STATUS : string;
 };
 
-export type ResultCmd = {
-  GROUP_NAME: string;
-  MEMBER_NAME: string;
-  MEMBER_HOST: string;
-  MEMBER_PORT: number;
+export type cmdResult = {
+  member_name: string;
+  cmd: string;
+  result: string;
+  current_status: string|null;
 };
 
+export type cmdState = {
+  errors?: {
+    name?: string[];
+    cmd?: string[];
+  };
+  message?: string | null;
+  result?: cmdResult | null;
+};
+
+// 서버에서 데이터 가져오기
 export async function getData(): Promise<Config> {
-  const res = await fetch('http://192.168.0.120:8000/home', { cache: 'no-store' });
+  const res = await fetch(`${API_URL}/home`, { cache: 'no-store' });
   // const res = await fetch('http://localhost:9999/root', { cache: 'no-store' });
   
   if (!res.ok) {
@@ -35,39 +46,26 @@ export async function getData(): Promise<Config> {
   return res.json();
 }
 
-export async function getMembers() {
+// 멤버 데이터 가져오기
+export async function getMembers(): Promise<Member[]> {
   const config = await getData();
   return config.MEMBERS;
 }
 
+// 명령어 유효성 검사 스키마 정의
 const cmdSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters long' }),
-  cmd: z.enum(['startup', 'shutdown','join'], { invalid_type_error: 'Please select a valid command.' })
+  cmd: z.enum(['startup', 'shutdown', 'join'], { invalid_type_error: 'Please select a valid command.' })
 });
 
-export type cmdResult = {
-  member_name : string
-  cmd : string
-  result : string
-  current_status : string
-}
-
-export type cmdState = {
-  errors?: {
-    name?: string[];
-    cmd?: string[];
-  };
-  message?: string | null;
-  result? : cmdResult|null;
-};
-
+// 명령어 실행
 export async function cmdMember(
   prevState: cmdState,
-  formData: FormData,
+  formData: FormData
 ): Promise<cmdState> {
   const validatedFields = cmdSchema.safeParse({
     name: formData.get('name') as string,
-    cmd: formData.get('cmd') as 'startup' | 'shutdown'
+    cmd: formData.get('cmd') as 'startup' | 'shutdown' | 'join'
   });
 
   if (!validatedFields.success) {
@@ -76,24 +74,27 @@ export async function cmdMember(
       message: 'Missing Fields. Failed to run Cmd.',
     };
   }
+
   const { name, cmd } = validatedFields.data;
+
   try {
-    const response = await fetch(`http://192.168.0.120:8000/cmd/${name}`, {
+    const response = await fetch(`${API_URL}/cmd/${name}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ name, cmd }),
     });
-    const data = await response.json()
+
     if (!response.ok) {
       throw new Error('Failed to run command');
     }
-    // 성공 시 반환 타입
-    return { message: null, errors: {} , result : data};
+
+    const data = await response.json();
+    return { message: null, errors: {}, result: data };
+
   } catch (error) {
     console.error(error);
-    return { message: 'Failed to run command' };
+    return { message: 'Failed to run command', errors: {} };
   }
-  return { message: null, errors: {} , result : null};
 }
