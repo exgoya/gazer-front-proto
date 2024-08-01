@@ -8,23 +8,23 @@ export default async function Page() {
   const members = config.MEMBERS;
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="w-full">
       {/* member name list 를 get 한다 */}
-      <div className="flex">
-        <table className="flex min-w-full text-gray-900 md:table">
-          <thead className="bg-white rounded-lg text-left text-sm font-normal">
+        <table className="flex-col min-w-full text-gray-900 md:table">
+          <thead className="bg-white-200 rounded-lg text-left text-sm font-normal">
             <tr>
               <th scope="col" className="px-4 py-5 font-medium">Group</th>
               <th scope="col" className="px-3 py-5 font-medium">Member</th>
               <th scope="col" className="px-3 py-5 font-medium">Host</th>
               <th scope="col" className="px-3 py-5 font-medium">Port</th>
+              <th scope="col" className="px-3 py-5 font-medium">Cpus</th>
               <th scope="col" className="px-3 py-5 font-medium">Action</th>
               <th scope="col" className="relative py-3 pl-6 pr-3">
                 <span className="sr-only">Edit</span>
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white">
+          <tbody className="bg-white-200">
             {members?.map((member) => (
               <tr
                 key={member.MEMBER_NAME}
@@ -41,6 +41,7 @@ export default async function Page() {
                 </td>
                 <td className="whitespace-nowrap px-3 py-3">{member.MEMBER_HOST}</td>
                 <td className="whitespace-nowrap px-3 py-3">{member.MEMBER_PORT}</td>
+                <td className="whitespace-nowrap px-3 py-3">93</td>
                 <td className="whitespace-nowrap px-3 py-3">
                   <Form member={member} cmds={['startup', 'shutdown', 'join']} />
                 </td>
@@ -49,7 +50,6 @@ export default async function Page() {
             ))}
           </tbody>
         </table>
-      </div>
       <div className="flex text-left">
         <p className="whitespace-nowrap py-3 pl-6 pr-3">Total Group Count: {config.TOTAL_GROUP_COUNT}</p>
         <p className="whitespace-nowrap py-3 pl-6 pr-3">Total Member Count: {config.TOTAL_MEMBER_COUNT}</p>
