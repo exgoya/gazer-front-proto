@@ -5,17 +5,17 @@ import { API_URL } from '../config/urls'; // 경로를 프로젝트에 맞게 �
 
 // 데이터 타입 정의
 export type Config = {
-  MEMBERS: Member[];
-  TOTAL_GROUP_COUNT: number;
-  TOTAL_MEMBER_COUNT: number;
+  members: Member[];
+  total_group_count: number;
+  total_member_count: number;
 };
 
 export type Member = {
-  GROUP_NAME: string;
-  MEMBER_NAME: string;
-  MEMBER_HOST: string;
-  MEMBER_PORT: number;
-  STATUS : string;
+  group_name: string;
+  member_name: string;
+  member_host: string;
+  member_port: number;
+  status : string;
 };
 
 export type cmdResult = {
@@ -49,7 +49,7 @@ export async function getData(): Promise<Config> {
 // 멤버 데이터 가져오기
 export async function getMembers(): Promise<Member[]> {
   const config = await getData();
-  return config.MEMBERS;
+  return config.members;
 }
 
 // 명령어 유효성 검사 스키마 정의

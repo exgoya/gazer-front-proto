@@ -83,7 +83,7 @@ export default function Form({ member, cmds }: FormProps) {
     <div className="flex gap-4 overflow-x-auto">
       <div id="status" aria-live="polite" aria-atomic="true">
         <p className={`w-full h-10 px-4 py-2 rounded-lg text-lg font-bold ${statusColor}`}>
-          {state.result?.current_status || member.STATUS}
+          {state.result?.current_status || member.status}
         </p>
       </div>
 
@@ -103,7 +103,7 @@ export default function Form({ member, cmds }: FormProps) {
             name="name"
             type="text"
             className="hidden"
-            defaultValue={member.MEMBER_NAME}
+            defaultValue={member.member_name}
             aria-describedby="name-error"
           />
           <input
