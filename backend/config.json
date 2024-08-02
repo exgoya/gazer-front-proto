@@ -1,0 +1,15 @@
+{
+  "MEMBERS": [
+    {
+      "GROUP_NAME": "G1",
+      "MEMBER_NAME": "G1N1",
+      "MEMBER_HOST": "192.168.0.120",
+      "MEMBER_PORT": 22581,
+      "USER": "root",
+      "PASSWORD" : "ekd9wkd"
+    }
+  ],
+  "TOTAL_GROUP_COUNT": 1,
+  "TOTAL_MEMBER_COUNT": 2
+}
+

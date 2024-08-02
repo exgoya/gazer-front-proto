@@ -1,0 +1,38 @@
+{
+  "MEMBERS": [
+    {
+      "GROUP_NAME": "G1",
+      "MEMBER_NAME": "G1N1",
+      "MEMBER_HOST": "192.168.0.120",
+      "MEMBER_PORT": 30009,
+      "USER":"root",
+      "PASSWORD":"ekd9wkd"
+    },    
+    {
+      "GROUP_NAME": "G1",
+      "MEMBER_NAME": "G1N2",
+      "MEMBER_HOST": "192.168.0.120",
+      "MEMBER_PORT": 30010,
+      "USER":"root",
+      "PASSWORD":"ekd9wkd"
+    },    
+    {
+      "GROUP_NAME": "G2",
+      "MEMBER_NAME": "G2N1",
+      "MEMBER_HOST": "192.168.0.120",
+      "MEMBER_PORT": 30011,
+      "USER":"root",
+      "PASSWORD":"ekd9wkd"
+    },    
+    {
+      "GROUP_NAME": "G2",
+      "MEMBER_NAME": "G2N2",
+      "MEMBER_HOST": "192.168.0.120",
+      "MEMBER_PORT": 30012,
+      "USER":"root",
+      "PASSWORD":"ekd9wkd"
+    }
+  ],
+  "TOTAL_GROUP_COUNT": 1,
+  "TOTAL_MEMBER_COUNT": 2
+}
